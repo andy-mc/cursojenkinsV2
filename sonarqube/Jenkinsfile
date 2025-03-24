@@ -1,5 +1,5 @@
 node {
-    def myGradleContainer = docker.image('gradle:jdk8') // Imagen completa con bibliotecas necesarias
+    def myGradleContainer = docker.image('gradle:jdk8')
     myGradleContainer.pull()
 
     stage('Preparación') {
@@ -7,7 +7,8 @@ node {
     }
 
     stage('Construcción') {
-        myGradleContainer.inside("-v ${env.HOME}/.gradle:/home/gradle/.gradle") {
+        // Quita el volumen
+        myGradleContainer.inside {
             sh 'cd complete && ./gradlew build'
         }
     }
